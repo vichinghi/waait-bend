@@ -7,7 +7,8 @@ from flask_marshmallow import Marshmallow
 from apps import commands
 
 from apps import website, incidents
-from apps.extensions import db, migrate
+from apps.extensions import db, migrate  # noqa
+from apps.utils.auth import Auth
 from apps.utils.error_handlers import handle_exception
 from apps.utils.handled_errors import BaseModelValidationError
 from apps.utils.validators import json_validator

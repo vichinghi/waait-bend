@@ -1,4 +1,4 @@
-from marshmallow import fields, ValidationError
+from marshmallow import fields, ValidationError, Schema
 
 from ..utils.base_schema import BaseSchema
 
@@ -15,3 +15,13 @@ class IncidentReportSchema(BaseSchema):
 
     class Meta:
         model = IncidentReport
+
+
+class IncidentReportArgs(Schema):
+    id = fields.Int()
+    what_happened = fields.Str()
+    how_it_happend = fields.Str()
+    date = fields.Date()
+    where_it_happend = fields.Str()
+    website = fields.Str()
+    url = fields.Str()
