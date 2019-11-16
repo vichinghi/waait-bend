@@ -1,21 +1,39 @@
-from flask import Flask, render_template
+# -*- coding: utf-8 -*-
+"""Create an application instance."""
+from apps.app import create_app
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
+from flask import Flask, render_template
 
-# to run app ==> flask run
+
+app = create_app()
 
 
 source = urlopen('http://api.worldbank.org/v2/countries/AFG')
 soup = BeautifulSoup(source, 'xml')
 
-app = Flask(__name__)
-
 
 @app.route('/')
 def index():
+    web_sites = [
+        'https://www.customs.gov.hk/en/publication_press/press/index_current.html',
+        'https://customsnews.vn/',
+        'https://www.apnews.com/'
+    ]
+    sources = []
+    for i, v in enumerate(web_sites):
+        exec('source_{}'.format(str(i))) = urlopen(v)
+        exec('soup_{}'.format(str(i))) = BeautifulSoup(
+            exec('source_{}'.format(str(i))), 'html.parser'
+        )
+        sources.append(
+            exec('soup_{}'.format(str(i)))
+        )
 
-    head = soup.find('wb:name').get_text()
-    second_author =  soup.find('wb:region').get_text()
-    first_article = soup.find('wb:incomeLevel').get_text()
-    print(head, second_author, first_article)
+    tables = []
+    for x in sources:
+        tables.append(
+            x.find('tbody').get_text()
+        )
+    print(tables)
     return render_template('index.html', **locals())
