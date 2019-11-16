@@ -15,9 +15,29 @@ soup = BeautifulSoup(source, 'xml')
 
 @app.route('/')
 def index():
+    web_sites = [
+        'https://www.customs.gov.hk/en/publication_press/press/index_current.html',
+        'https://customsnews.vn/',
+        'https://www.apnews.com/'
+    ]
+    sources = []
+    print(web_sites)
+    for v in web_sites:
+        m_ = urlopen(v)
+        n_ = BeautifulSoup(m_, 'html.parser')
+        sources.append(
+            n_
+        )
 
-    head = soup.find('wb:name').get_text()
-    second_author = soup.find('wb:region').get_text()
-    first_article = soup.find('wb:incomeLevel').get_text()
-    print(head, second_author, first_article)
+    tables = []
+    pages = []
+    for x in sources:
+        if x.find('tbody'):
+            tables.append(
+                x.find('tbody').get_text()
+            )
+        if not x.find('tbody'):
+            pages.append(x.get_text())
+    print(tables)
+    print(pages)
     return render_template('index.html', **locals())
