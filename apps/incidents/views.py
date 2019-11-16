@@ -15,7 +15,8 @@ blueprint = Blueprint("incident", __name__, url_prefix="/incident")
 class IncidentReportsView(MethodView):
     @use_args(IncidentReportArgs())
     def get(self, argument):
-        all_incidents = IncidentReport.query.filter_by(**argument).all()
+        attributes = [getattr(IncidentReport, key).ilike(f'%{value}%') for key, value in argument.items()]
+        all_incidents = IncidentReport.query.filter(*attributes).all()
         schema = IncidentReportSchema(many=True)
         return {"incidents": schema.dump(all_incidents)}, 200
 

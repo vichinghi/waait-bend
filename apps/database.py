@@ -54,14 +54,11 @@ class SurrogatePK(object):
     @classmethod
     def get_by_id(cls, record_id):
         """Get record by ID."""
-        if any(
-            (
-                isinstance(record_id, basestring) and record_id.isdigit(),
-                isinstance(record_id, (int, float)),
-            )
-        ):
-            return cls.query.get(int(record_id))
-        return None
+        try:
+            record_id = int(record_id)
+        except ValueError as error:
+            return None
+        return cls.query.get(int(record_id))
 
     @classmethod
     def get_or_404(cls, record_id):
@@ -76,6 +73,8 @@ class SurrogatePK(object):
 
 def reference_col(
     tablename, nullable=False, pk_name="id", foreign_key_kwargs=None, column_kwargs=None
+
+
 ):
     """Column that adds primary key foreign key reference.
 

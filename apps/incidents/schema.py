@@ -18,7 +18,6 @@ class IncidentReportSchema(BaseSchema):
 
 
 class IncidentReportArgs(Schema):
-    id = fields.Int()
     what_happened = fields.Str()
     how_it_happend = fields.Str()
     date = fields.Date()
