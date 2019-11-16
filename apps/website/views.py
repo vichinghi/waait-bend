@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 """Rating views."""
-from flask import Blueprint, jsonify, make_response, request
+from flask import Blueprint, jsonify, make_response, request, current_app
 from flask.views import MethodView
 
 from ..utils.view_utils import delete_by_id
+from ..scraper import run_scraper
 from .models import Website
 from .schema import WebsiteSchema
+from ..scheduler import scheduler
 
 blueprint = Blueprint("Website", __name__, url_prefix="/website")
 
@@ -20,6 +22,8 @@ class WebsitesView(MethodView):
         request_data = request.get_json()
         schema = WebsiteSchema()
         url = schema.load(request_data)
+        url_string = schema.dump(url).get('url')
+        run_scraper(url_string)
         url.save()
         return make_response(jsonify({"website": schema.dump(url)}), 201)
 

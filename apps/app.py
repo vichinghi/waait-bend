@@ -6,9 +6,10 @@ from flask import Flask
 from flask_marshmallow import Marshmallow
 from apps import commands
 from flask_cors import CORS
+from .scheduler import scheduler
 
 
-from apps import website, incidents, keywords, scraper
+from apps import website, incidents, keywords
 from apps.extensions import db, migrate  # noqa
 from apps.utils.auth import Auth
 from apps.utils.error_handlers import handle_exception
@@ -29,13 +30,17 @@ def create_app(config_object="apps.settings"):
     register_before_register(app)
     configure_logger(app)
 
+    scheduler.init_app(app)
+    scheduler.start()
+
     cors = CORS(app)
     return app
 
 
 def register_extensions(app):
     """Register Flask extensions."""
-    db.init_app(app)
+    with app.app_context():
+        db.init_app(app)
     migrate.init_app(app, db)
 
     ma = Marshmallow(app)
@@ -48,7 +53,6 @@ def register_blueprints(app):
     app.register_blueprint(website.views.blueprint)
     app.register_blueprint(incidents.views.blueprint)
     app.register_blueprint(keywords.views.blueprint)
-    app.register_blueprint(scraper.views.blueprint)
 
     return None
 
