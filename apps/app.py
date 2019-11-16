@@ -31,6 +31,7 @@ def create_app(config_object="apps.settings"):
     configure_logger(app)
 
     scheduler.init_app(app)
+    
     scheduler.start()
 
     cors = CORS(app)

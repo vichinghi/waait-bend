@@ -23,8 +23,11 @@ class WebsitesView(MethodView):
         schema = WebsiteSchema()
         url = schema.load(request_data)
         url_string = schema.dump(url).get('url')
-        run_scraper(url_string)
+        app = scheduler.app
         url.save()
+        scheduler.add_job(func=run_scraper,
+                          trigger='date', args=[url_string, app],
+                          id='j'+str(url_string))
         return make_response(jsonify({"website": schema.dump(url)}), 201)
 
 
