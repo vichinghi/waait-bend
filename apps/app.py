@@ -5,6 +5,8 @@ import sys
 from flask import Flask
 from flask_marshmallow import Marshmallow
 from apps import commands
+from flask_cors import CORS
+
 
 from apps import website, incidents, keywords
 from apps.extensions import db, migrate  # noqa
@@ -26,6 +28,8 @@ def create_app(config_object="apps.settings"):
     register_commands(app)
     register_before_register(app)
     configure_logger(app)
+
+    cors = CORS(app)
     return app
 
 
