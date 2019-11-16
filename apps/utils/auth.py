@@ -16,7 +16,7 @@ class Auth:
 
     """ Routes The Location Header Should  Not Be Applied Ignore"""
     location_header_ignore = [
-        "/locations",
+        "/website",
         "/docs",
         "/apidocs",
         "/flasgger_static",
