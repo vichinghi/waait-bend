@@ -1,11 +1,11 @@
+# -*- coding: utf-8 -*-
+"""Location models."""
+from ..database import db, Model, SurrogatePK
 import datetime
-from routes import db
 
-
-class IncidentReport(db.Model):
+class IncidentReport(SurrogatePK, Model):
     __tablename__ = 'incident_reports'
 
-    id = db.Column(db.Integer, primary_key=True)
     criminal = db.relationship('Criminal', backref='incident_report', lazy=True)
     what_happened = db.Column(db.String)
     how_it_happend = db.Column(db.String)
@@ -15,16 +15,14 @@ class IncidentReport(db.Model):
     url = db.Column(db.String)
 
 
-class Criminal(db.Model):
+class Criminal(SurrogatePK, Model):
     __tablename__ = 'criminals'
 
-    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     description = db.Column(db.String)
 
 
-class Website(db.Model):
+class Website(SurrogatePK, Model):
     __tablename__ = 'websites'
 
-    id = db.Column(db.Integer, primary_key=True)
     link = db.Column(db.String)
