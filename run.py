@@ -3,14 +3,10 @@
 from apps.app import create_app
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
-from flask import Flask, render_template
-
+from flask import Flask, request, jsonify, render_template
 
 app = create_app()
 
-
-source = urlopen('http://api.worldbank.org/v2/countries/AFG')
-soup = BeautifulSoup(source, 'xml')
 
 
 @app.route('/')

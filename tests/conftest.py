@@ -16,7 +16,7 @@ from .utils import TestClient, User
 
 fake = Faker()
 
-pytest_plugins = ["tests.fixtures.user", "tests.fixtures.locations"]
+pytest_plugins = ["tests.fixtures.user", "tests.fixtures.website"]
 
 
 @pytest.fixture
