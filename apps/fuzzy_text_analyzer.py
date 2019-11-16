@@ -1,4 +1,5 @@
 from fuzzywuzzy import fuzz, process
+from .keywords.models import Keyword
 
 keys = ['seizure', 'seized', 'seiz*'
         'confiscation', 'confiscated', 'confiscat',
@@ -16,7 +17,10 @@ keys = ['seizure', 'seized', 'seiz*'
         "poaching"]
 
 
-def get_match(string, keywords, score_cutoff=70):
+def get_match(string, score_cutoff=80):
+    records = Keyword.query.all()
+    keywords = [item.word for item in records]
+    keywords += keys
     results = process.extractBests(
         string, keywords, score_cutoff=score_cutoff, limit=5)
     if results:
