@@ -8,7 +8,7 @@ from apps import commands
 from flask_cors import CORS
 
 
-from apps import website, incidents, keywords
+from apps import website, incidents, keywords, scraper
 from apps.extensions import db, migrate  # noqa
 from apps.utils.auth import Auth
 from apps.utils.error_handlers import handle_exception
@@ -48,6 +48,7 @@ def register_blueprints(app):
     app.register_blueprint(website.views.blueprint)
     app.register_blueprint(incidents.views.blueprint)
     app.register_blueprint(keywords.views.blueprint)
+    app.register_blueprint(scraper.views.blueprint)
 
     return None
 
