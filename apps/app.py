@@ -6,6 +6,7 @@ from flask import Flask
 from flask_marshmallow import Marshmallow
 from apps import commands
 from flask_cors import CORS
+from .scheduler import scheduler
 
 
 from apps import website, incidents, keywords
@@ -29,13 +30,17 @@ def create_app(config_object="apps.settings"):
     register_before_register(app)
     configure_logger(app)
 
+    scheduler.init_app(app)
+    scheduler.start()
+
     cors = CORS(app)
     return app
 
 
 def register_extensions(app):
     """Register Flask extensions."""
-    db.init_app(app)
+    with app.app_context():
+        db.init_app(app)
     migrate.init_app(app, db)
 
     ma = Marshmallow(app)
