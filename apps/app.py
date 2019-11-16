@@ -6,7 +6,7 @@ from flask import Flask, render_template
 from flask_marshmallow import Marshmallow
 from apps import commands
 
-from apps import locations
+from apps import locations,incidents
 from apps.extensions import db, migrate  # noqa
 from apps.utils.auth import Auth
 from apps.utils.error_handlers import handle_exception
@@ -42,6 +42,7 @@ def register_extensions(app):
 def register_blueprints(app):
     """Register Flask blueprints."""
     app.register_blueprint(locations.views.blueprint)
+    app.register_blueprint(incidents.views.blueprint)
 
     return None
 

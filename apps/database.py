@@ -39,14 +39,6 @@ class Model(CRUDMixin, db.Model):
     """Base model class that includes CRUD convenience methods."""
 
     __abstract__ = True
-
-    uuid = db.Column(
-        db.String(100),
-        default=lambda: str(uuid4()),
-        unique=True,
-        index=True,
-        nullable=False,
-    )
     created_at = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
 
 
