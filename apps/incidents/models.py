@@ -1,19 +1,7 @@
 # -*- coding: utf-8 -*-
 """Location models."""
 from ..database import db, Model, SurrogatePK
-import datetime
-
-class IncidentReport(SurrogatePK, Model):
-    __tablename__ = 'incident_reports'
-
-    criminal = db.relationship('Criminal', backref='incident_report', lazy=True)
-    what_happened = db.Column(db.String)
-    how_it_happend = db.Column(db.String)
-    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    where_it_happend = db.Column(db.String)
-    website = db.Column(db.String)
-    url = db.Column(db.String)
-
+from datetime import datetime
 
 class Criminal(SurrogatePK, Model):
     __tablename__ = 'criminals'
@@ -26,3 +14,15 @@ class Website(SurrogatePK, Model):
     __tablename__ = 'websites'
 
     link = db.Column(db.String)
+
+
+class IncidentReport(SurrogatePK, Model):
+    __tablename__ = 'incident_reports'
+
+    # criminal = db.relationship('Criminal', backref='incident_report', lazy=True)
+    what_happened = db.Column(db.String)
+    how_it_happend = db.Column(db.String)
+    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    where_it_happend = db.Column(db.String)
+    website = db.Column(db.String)
+    url = db.Column(db.String)
